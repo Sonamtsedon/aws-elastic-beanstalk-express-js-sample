@@ -29,13 +29,15 @@ pipeline {
 		post {
 			always {
 				archiveArtifacts artifacts: 'npm-audit.json'
-                }
-            }
-        }
-
+}
+}
+}
+}
+}
         stage('Build Docker Image') {
             agent any
-
+	
+	
             steps {
                 sh 'docker build -t 21988776/isec6000-express-app:latest .'
             }
