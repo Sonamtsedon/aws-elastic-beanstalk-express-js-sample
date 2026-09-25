@@ -24,8 +24,11 @@ pipeline {
 
                 stage('Security Scan') {
                     steps {
-                        sh 'npm audit --audit-level=high'
+                        sh 'npm audit --audit-level=high --json > npm-audit.json'
                     }
+		post {
+			always {
+				archiveArtifacts artifacts: 'npm-audit.json'
                 }
             }
         }
@@ -44,7 +47,7 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'dockerhub',
+                        credentialsId: 'dockerhub-credentials',
                         usernameVariable: 'DOCKERHUB_USERNAME',
                         passwordVariable: 'DOCKERHUB_TOKEN'
                     )
